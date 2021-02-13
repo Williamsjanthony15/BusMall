@@ -1,10 +1,10 @@
-use strict'
+'use strict';
 
 // GLobal variables
 
 let totalClicks = 0;
-let clicksAllowed = 15;
-let allGoats = [];
+let clicksAllowed = 25;
+let allProducts = [];
 let imageOne = document.querySelector('section img: first-child');
 let imageTwo = document.querySelector('section img: nth-child(2)');
 let myContainer = document.querySelector('section');
@@ -23,60 +23,65 @@ function Products(name, fileExtensions = 'jpg') {
   allProducts.push(this);
 }
 
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
-new Products();
+new Products('bag');
+new Products('banana');
+new Products('bathroom');
+new Products('boots');
+new Products('breakfast');
+new Products('bubblegum');
+new Products('chair');
+new Products('cthulhu');
+new Products('dog-duck');
+new Products('dragon');
+new Products('pen');
+new Products('pet-sweep');
+new Products('scissors');
+new Products('shark');
+new Products('sweep');
+new Products('tauntaun');
+new Products('unicorn');
+new Products('usb', 'gif');
+new Products('water-can');
+new Products('wine-glass');
 
 
-function getRandomindex() {
-  return Math.floor(Math.random() * allGoats.length);
+function getRandomIndex() {
+  return Math.floor(Math.random() * allProducts.length);
 }
 
-function renderedGoats() {
-  let firstGoatIndex = getRandomIndex();
-  let secondGoatIndex = getRandomIndex();
+function renderProduct() {
+  let firstProductIndex = getRandomIndex();
+  let secondProductIndex = getRandomIndex();
+  let thirdProductIndex = getRandomIndex();
   // in lab today youll have 3 images so it wont work... Recommend using an index array. (maybe name it indexArray)
   // Check to see if the index is includedin that array.
   // if your using that array pop those results from the array or shift maybe?
   // pop and shift both return something.
-  while (firstGoatIndex === secondGoatIndex) {
-    secondGoatIndex = getRandomIndex();
+  while (firstProductIndex === secondProductIndex) {
+    firstProductIndex = getRandomIndex();
+  }
+  while(firstProductIndex === thirdProductIndex) {
+    firstProductIndex = getRandomIndex();
+  }
+  while(secondProductIndex === thirdProductIndex) {
+    secondProductIndex = getRandomIndex();
   }
 
-  imageOne.src = allGoats[firstGoatIndex].src;
-  imageOne.title = allGoats[firstGoatIndex].name;
-  allGoats[firstGoatIndex].views++;
+  imageOne.src = allProducts[firstProductIndex].src;
+  imageOne.title = allProducts[firstProductIndex].name;
+  allProducts[firstProductIndex].views++;
 
-  imageTwo.src = allGoats[secondGoatIndex].src;
-  imageTwo.title = allGoats[secondGoatIndex].name;
-  allGoats[secondGoatIndex].views++;
+  imageTwo.src = allProducts[secondProductIndex].src;
+  imageTwo.title = allProducts[secondProductIndex].name;
+  allProducts[secondProductIndex].views++;
 }
 
-renderResults() {
+function renderResults() {
   // rendering a list of clicks
   let myList = document.querySelector('ul');
-  for (let i = 0; i < allGoats.length; i++) {
+  for (let i = 0; i < allProducts.length; i++) {
     let li = document.createElement('li');
-    blank had 3 votes, and was seen 5 Times.
-      li.textContent = `${allGoats[i].name} was viewed ${allGoats[i].views} times and clicked ${allGoats[i].clicked} times`;
+    li.textContent = `${allProducts[i].name} had ${allProducts[i].views} votes, and was seen ${allProducts[i].clicked} times`;
     myList.appendChild(li);
   }
 }
@@ -84,33 +89,32 @@ renderResults() {
 function handleClick(event) {
   if (event.target === myContainer) {
     alert('Must click image');
-    break;
   }
+
   totalClicks++;
   let getClicked = event.target.title;
 
-  for (let i = 0; i < allGoats.length; i++) {
-    if (getClicked === allGoats[i].name) {
-      allGoats[i].clicks++
-      console.log(allGoats[i]);
+  for (let i = 0; i < allProducts.length; i++) {
+    if (getClicked === allProducts[i].name) {
+      allProducts[i].clicks++;
+      console.log(allProducts[i]);
     }
     console.log(getClicked);
   }
-  renderedGoats();
+  renderProduct();
   if (totalClicks === clicksAllowed) {
     // remove evenet Listener.
     myContainer.removeEventListener('click', handleClick);
-    renderResults();
   }
 }
 
-function buttonClick(event) {
+function buttonClick(event) {  //disable-eslint-line
   console.log('i was clicked');
   if (totalClicks === clicksAllowed) {
     renderResults();
   }
 }
-renderedGoats();
+renderProduct();
 
 myContainer.addEventListener('click', handleClick);
-myButton.addEventListener('click', 
+divButton.addEventListener('click', buttonClick);

@@ -39,3 +39,13 @@ div {
 div:hover{
   cursor: pointer;
 }
+
+li {
+  border: 1px solid black;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin: auto;
+  width: 400px;
+  text-align: center;
+  background-color: darkgrey;
+}

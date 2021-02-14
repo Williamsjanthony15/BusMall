@@ -5,11 +5,11 @@
 let totalClicks = 0;
 let clicksAllowed = 25;
 let allProducts = [];
+let myContainer = document.querySelector('section');
+let divButton = document.querySelector('div');
 let imageOne = document.querySelector('section img:first-child');
 let imageTwo = document.querySelector('section img:nth-child(2)');
 let imageThree = document.querySelector('section img:nth-child(3)');
-let myContainer = document.querySelector('section');
-let divButton = document.querySelector('div');
 
 // console.log(imageOne);
 // console.log(imageTwo);
@@ -18,7 +18,6 @@ let divButton = document.querySelector('div');
 
 function Products(name, fileExtensions = 'jpg') {
   this.name = name;
-  // this.fileExtensions = fileExtensions
   this.src = `img/${name}.${fileExtensions}`;
   this.views = 0;
   this.clicked = 0;
@@ -62,7 +61,7 @@ function renderProduct() {
   while(firstProductIndex === thirdProductIndex) {
     firstProductIndex = getRandomIndex();
   }
-  while(secondProductIndex === thirdProductIndex ||secondProductIndex === firstProductIndex) {
+  while(secondProductIndex === thirdProductIndex || secondProductIndex === firstProductIndex) {
     secondProductIndex = getRandomIndex();
   }
 
@@ -80,7 +79,6 @@ function renderProduct() {
 }
 
 function renderResults() {
-  // rendering a list of clicks
   let myList = document.querySelector('ul');
   for (let i = 0; i < allProducts.length; i++) {
     let li = document.createElement('li');
@@ -106,17 +104,17 @@ function handleClick(event) {
   }
   renderProduct();
   if (totalClicks === clicksAllowed) {
-    // remove evenet Listener.
     myContainer.removeEventListener('click', handleClick);
   }
 }
 
-function buttonClick(event) { //disable-eslint-line
+function buttonClick(event) {
   console.log('i was clicked');
   if (totalClicks === clicksAllowed) {
     renderResults();
   }
 }
+
 renderProduct();
 
 myContainer.addEventListener('click', handleClick);

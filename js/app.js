@@ -128,8 +128,8 @@ Function renderChart() {
   let productClicks = [];
   let productViews = [];
   for ( let i = 0; i < allProducts; i++) {
-    productClicks.push(productClicks[i].clicks);
     productNames.push(productNames[i].names);
+    productClicks.push(productClicks[i].clicks);
     productViews.push(productViews[i].views);
   }
   type: 'bar',

@@ -5,11 +5,11 @@
 let totalClicks = 0;
 let clicksAllowed = 25;
 let allProducts = [];
+let myContainer = document.querySelector('section');
+let divButton = document.querySelector('div');
 let imageOne = document.querySelector('section img:first-child');
 let imageTwo = document.querySelector('section img:nth-child(2)');
 let imageThree = document.querySelector('section img:nth-child(3)');
-let myContainer = document.querySelector('section');
-let divButton = document.querySelector('div');
 
 // console.log(imageOne);
 // console.log(imageTwo);
@@ -18,7 +18,6 @@ let divButton = document.querySelector('div');
 
 function Products(name, fileExtensions = 'jpg') {
   this.name = name;
-  // this.fileExtensions = fileExtensions
   this.src = `img/${name}.${fileExtensions}`;
   this.views = 0;
   this.clicked = 0;
@@ -59,10 +58,10 @@ function renderProduct() {
   while (firstProductIndex === secondProductIndex) {
     firstProductIndex = getRandomIndex();
   }
-  while(firstProductIndex === thirdProductIndex) {
+  while (firstProductIndex === thirdProductIndex) {
     firstProductIndex = getRandomIndex();
   }
-  while(secondProductIndex === thirdProductIndex ||secondProductIndex === firstProductIndex) {
+  while (secondProductIndex === thirdProductIndex || secondProductIndex === firstProductIndex) {
     secondProductIndex = getRandomIndex();
   }
 
@@ -80,7 +79,6 @@ function renderProduct() {
 }
 
 function renderResults() {
-  // rendering a list of clicks
   let myList = document.querySelector('ul');
   for (let i = 0; i < allProducts.length; i++) {
     let li = document.createElement('li');
@@ -100,24 +98,157 @@ function handleClick(event) {
   for (let i = 0; i < allProducts.length; i++) {
     if (getClicked === allProducts[i].name) {
       allProducts[i].clicked++;
-      console.log(allProducts[i]);
+      // console.log(allProducts[i]);
     }
-    console.log(getClicked);
+    // console.log(getClicked);
   }
   renderProduct();
   if (totalClicks === clicksAllowed) {
-    // remove evenet Listener.
     myContainer.removeEventListener('click', handleClick);
   }
 }
 
-function buttonClick(event) { //disable-eslint-line
-  console.log('i was clicked');
+function buttonClick(event) {
+  // console.log('i was clicked');
   if (totalClicks === clicksAllowed) {
     renderResults();
+    // Call makeChart function
   }
 }
+
+//building chart functionality. Function make chart** 
+// seperate function that will grab views, clicked, and names store them in seperate arrays. 
 renderProduct();
 
+let ctx = document.getElementById('myChart').getContext('2d');
+let myChart = new Chart(ctx, 
+  
+Function renderChart() {
+  let productNames = [];
+  let productClicks = [];
+  let productViews = [];
+  for ( let i = 0; i < allProducts; i++) {
+    productNames.push(productNames[i].names);
+    productClicks.push(productClicks[i].clicks);
+    productViews.push(productViews[i].views);
+  }
+  type: 'bar',
+  data: {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [{
+      label: '# of Votes',
+      data: [12, 19, 3, 5, 2, 3],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [{
+      label: '# of Votes',
+      data: [12, 19, 3, 5, 2, 3],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [{
+      label: '# of Votes',
+      data: [12, 19, 3, 5, 2, 3],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
 myContainer.addEventListener('click', handleClick);
 divButton.addEventListener('click', buttonClick);
+
+
+
+
+// in function (make chart)
+// * push allproducts[i].name     -
+// push allproducts[i].clicked    All arrays. 
+// push allproducts[i].views      -
+
+// for loop, loop over allProducts. 
+// Do all of this first.

@@ -10,6 +10,7 @@ let divButton = document.querySelector('div');
 let imageOne = document.querySelector('section img:first-child');
 let imageTwo = document.querySelector('section img:nth-child(2)');
 let imageThree = document.querySelector('section img:nth-child(3)');
+let ctx = document.getElementById('productsChart').getContext('2d');
 
 // console.log(imageOne);
 // console.log(imageTwo);
@@ -98,157 +99,71 @@ function handleClick(event) {
   for (let i = 0; i < allProducts.length; i++) {
     if (getClicked === allProducts[i].name) {
       allProducts[i].clicked++;
-      // console.log(allProducts[i]);
     }
-    // console.log(getClicked);
   }
   renderProduct();
   if (totalClicks === clicksAllowed) {
     myContainer.removeEventListener('click', handleClick);
+    renderChart();
   }
 }
 
 function buttonClick(event) {
-  // console.log('i was clicked');
   if (totalClicks === clicksAllowed) {
     renderResults();
-    // Call makeChart function
   }
 }
 
-//building chart functionality. Function make chart** 
-// seperate function that will grab views, clicked, and names store them in seperate arrays. 
 renderProduct();
 
-let ctx = document.getElementById('myChart').getContext('2d');
-let myChart = new Chart(ctx, 
-  
-Function renderChart() {
-  let productNames = [];
+function renderChart() {
   let productClicks = [];
+  let productNames = [];
   let productViews = [];
-  for ( let i = 0; i < allProducts; i++) {
-    productNames.push(productNames[i].names);
-    productClicks.push(productClicks[i].clicks);
-    productViews.push(productViews[i].views);
+  for (let i = 0; i < allProducts.length; i++) {
+    productClicks.push(allProducts[i].clicks);
+    productNames.push(allProducts[i].name);
+    productViews.push(allProducts[i].views);
+    console.log(productNames);
   }
-  type: 'bar',
-  data: {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [{
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
-      ],
-      borderWidth: 1
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
+  let productsChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: productNames,
+      datasets: [{
+        label: 'Clicks',
+        data: productClicks,
+        backgroundColor: 'rgba(107, 159, 255, 1)',
+        borderColor: 'rgba(5, 93, 255, 1)',
+        borderWidth: 5
+      },
+      // {
+      //   label: 'Names',
+      //   data: productNames,
+      //   backgroundColor: 'rgba(255, 66, 66, 0.54)',      ------ Code Review Question. What is this utilized use for? Where do they live when rendered?
+      //   borderColor: 'rgba(255, 20, 20, 1)',
+      //   borderWidth: 5
+      // },
+      {
+        label: 'Views',
+        data: productViews,
+        backgroundColor: 'rgba(37, 223, 17, 0.57)',
+        borderColor: 'rgba(47, 165, 34, 1)',
+        borderWidth: 5
       }]
+    },
+    responsive: false,
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
     }
-  }
-});
-var myChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [{
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
-      ],
-      borderWidth: 1
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    }
-  }
-});
-var myChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [{
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
-      ],
-      borderWidth: 1
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    }
-  }
-});
+  });
+}
+
 myContainer.addEventListener('click', handleClick);
 divButton.addEventListener('click', buttonClick);
-
-
-
-
-// in function (make chart)
-// * push allproducts[i].name     -
-// push allproducts[i].clicked    All arrays. 
-// push allproducts[i].views      -
-
-// for loop, loop over allProducts. 
-// Do all of this first.

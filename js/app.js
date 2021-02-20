@@ -10,12 +10,11 @@ let divButton = document.querySelector('div');
 let imageOne = document.querySelector('section img:first-child');
 let imageTwo = document.querySelector('section img:nth-child(2)');
 let imageThree = document.querySelector('section img:nth-child(3)');
-let ctx = document.getElementById('productsChart').getContext('2d');
+let picArray = [imageOne, imageTwo, imageThree];
 
-// console.log(imageOne);
-// console.log(imageTwo);
-// console.log(myContainer);
-// console.log(divButton);
+let uniqueArray = [];
+
+let ctx = document.getElementById('productsChart').getContext('2d');
 
 function Products(name, fileExtensions = 'jpg') {
   this.name = name;
@@ -52,41 +51,66 @@ function getRandomIndex() {
 }
 
 function renderProduct() {
-  let firstProductIndex = getRandomIndex();
-  let secondProductIndex = getRandomIndex();
-  let thirdProductIndex = getRandomIndex();
 
-  while (firstProductIndex === secondProductIndex) {
-    firstProductIndex = getRandomIndex();
+  while (uniqueArray.length < 6) {
+    var any = getRandomIndex();
+    while (!uniqueArray.includes(any)) {
+      console.log('Im Inside');
+      picArray.push(any);
+    }
   }
-  while (firstProductIndex === thirdProductIndex) {
-    firstProductIndex = getRandomIndex();
-  }
-  while (secondProductIndex === thirdProductIndex || secondProductIndex === firstProductIndex) {
-    secondProductIndex = getRandomIndex();
-  }
-
-  imageOne.src = allProducts[firstProductIndex].src;
-  imageOne.title = allProducts[firstProductIndex].name;
-  allProducts[firstProductIndex].views++;
-
-  imageTwo.src = allProducts[secondProductIndex].src;
-  imageTwo.title = allProducts[secondProductIndex].name;
-  allProducts[secondProductIndex].views++;
-
-  imageThree.src = allProducts[thirdProductIndex].src;
-  imageThree.title = allProducts[thirdProductIndex].name;
-  allProducts[thirdProductIndex].views++;
+  console.log('outside complete');
 }
+// Outer while loop will run until the length of the unique array is 6
+// unique array global
+// inner while will have .includes, checking to see if random number(index) is the different from numbers that are in it already.
+// If it is different .push to unique array... 
+
+//   let firstProductIndex = getRandomIndex();
+//   let secondProductIndex = getRandomIndex();
+//   let thirdProductIndex = getRandomIndex();
+
+//   while (firstProductIndex === secondProductIndex) {
+//     firstProductIndex = getRandomIndex();
+//   }
+//   while (firstProductIndex === thirdProductIndex) {
+//     firstProductIndex = getRandomIndex();
+//   }
+//   while (secondProductIndex === thirdProductIndex || secondProductIndex === firstProductIndex) {
+//     secondProductIndex = getRandomIndex();
+//   }
+
+//   imageOne.src = allProducts[firstProductIndex].src;
+//   imageOne.title = allProducts[firstProductIndex].name;
+//   allProducts[firstProductIndex].views++;
+
+//   imageTwo.src = allProducts[secondProductIndex].src;
+//   imageTwo.title = allProducts[secondProductIndex].name;
+//   allProducts[secondProductIndex].views++;
+
+//   imageThree.src = allProducts[thirdProductIndex].src;
+//   imageThree.title = allProducts[thirdProductIndex].name;
+//   allProducts[thirdProductIndex].views++;
+// }
 
 function renderResults() {
-  let myList = document.querySelector('ul');
-  for (let i = 0; i < allProducts.length; i++) {
-    let li = document.createElement('li');
-    li.textContent = `${allProducts[i].name} had ${allProducts[i].views} votes, and was seen ${allProducts[i].clicked} times`;
-    myList.appendChild(li);
+  renderProduct();
+  for (var i = 0; i < picArray.length; i++) {
+    var insert = uniqueArray.unshift();
+    allProducts[i].src = allProducts[insert].src;
+    allProducts[i].title = allProducts[insert].name;
+    allProducts[i].views++;
   }
 }
+
+// {
+//   let myList = document.querySelector('ul');
+//   for (let i = 0; i < allProducts.length; i++) {
+//     let li = document.createElement('li');
+//     li.textContent = `${allProducts[i].name} had ${allProducts[i].views} votes, and was seen ${allProducts[i].clicked} times`;
+//     myList.appendChild(li);
+//   }
+// }
 
 function handleClick(event) {
   if (event.target === myContainer) {

@@ -1,7 +1,7 @@
 'use strict';
 
 let totalClicks = 0;
-let clicksAllowed = 25;
+let clicksAllowed = 10;
 let allProducts = [];
 let myContainer = document.querySelector('section');
 let imageOne = document.querySelector('section img:first-child');
@@ -18,27 +18,34 @@ function Products(name, fileExtensions = 'jpg') {
   this.clicked = 0;
   allProducts.push(this);
 }
-new Products('bag');
-new Products('banana');
-new Products('bathroom');
-new Products('boots');
-new Products('breakfast');
-new Products('bubblegum');
-new Products('chair');
-new Products('cthulhu');
-new Products('dog-duck');
-new Products('dragon');
-new Products('pen');
-new Products('pet-sweep');
-new Products('scissors');
-new Products('shark');
-new Products('sweep', 'png');
-new Products('tauntaun');
-new Products('unicorn');
-new Products('usb', 'gif');
-new Products('water-can');
-new Products('wine-glass');
 
+let getData = localStorage.getItem('products');
+
+if (getData) {
+  let parsedProducts = JSON.parse(getData);
+  allProducts = parsedProducts;
+} else {
+  new Products('bag');
+  new Products('banana');
+  new Products('bathroom');
+  new Products('boots');
+  new Products('breakfast');
+  new Products('bubblegum');
+  new Products('chair');
+  new Products('cthulhu');
+  new Products('dog-duck');
+  new Products('dragon');
+  new Products('pen');
+  new Products('pet-sweep');
+  new Products('scissors');
+  new Products('shark');
+  new Products('sweep', 'png');
+  new Products('tauntaun');
+  new Products('unicorn');
+  new Products('usb', 'gif');
+  new Products('water-can');
+  new Products('wine-glass');
+}
 
 function getRandomIndex() {
   return Math.floor(Math.random() * allProducts.length);
@@ -79,9 +86,10 @@ function handleClick(event) {
   if (totalClicks === clicksAllowed) {
     myContainer.removeEventListener('click', handleClick);
     renderChart();
+    let stringifiedProducts = JSON.stringify(allProducts);
+    localStorage.setItem('products' , stringifiedProducts);
   }
 }
-
 renderProducts();
 
 function renderChart() {

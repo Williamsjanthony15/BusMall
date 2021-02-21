@@ -1,19 +1,14 @@
 'use strict';
 
-// GLobal variables
-
 let totalClicks = 0;
 let clicksAllowed = 25;
 let allProducts = [];
 let myContainer = document.querySelector('section');
-let divButton = document.querySelector('div');
 let imageOne = document.querySelector('section img:first-child');
 let imageTwo = document.querySelector('section img:nth-child(2)');
 let imageThree = document.querySelector('section img:nth-child(3)');
 let picArray = [imageOne, imageTwo, imageThree];
-
 let uniqueArray = [];
-
 let ctx = document.getElementById('productsChart').getContext('2d');
 
 function Products(name, fileExtensions = 'jpg') {
@@ -23,7 +18,6 @@ function Products(name, fileExtensions = 'jpg') {
   this.clicked = 0;
   allProducts.push(this);
 }
-
 new Products('bag');
 new Products('banana');
 new Products('bathroom');
@@ -50,106 +44,58 @@ function getRandomIndex() {
   return Math.floor(Math.random() * allProducts.length);
 }
 
-function renderProduct() {
-
+function getUniqueIndex() {
   while (uniqueArray.length < 6) {
     var any = getRandomIndex();
     while (!uniqueArray.includes(any)) {
-      console.log('Im Inside');
-      picArray.push(any);
+      uniqueArray.push(any);
     }
   }
-  console.log('outside complete');
 }
-// Outer while loop will run until the length of the unique array is 6
-// unique array global
-// inner while will have .includes, checking to see if random number(index) is the different from numbers that are in it already.
-// If it is different .push to unique array... 
 
-//   let firstProductIndex = getRandomIndex();
-//   let secondProductIndex = getRandomIndex();
-//   let thirdProductIndex = getRandomIndex();
-
-//   while (firstProductIndex === secondProductIndex) {
-//     firstProductIndex = getRandomIndex();
-//   }
-//   while (firstProductIndex === thirdProductIndex) {
-//     firstProductIndex = getRandomIndex();
-//   }
-//   while (secondProductIndex === thirdProductIndex || secondProductIndex === firstProductIndex) {
-//     secondProductIndex = getRandomIndex();
-//   }
-
-//   imageOne.src = allProducts[firstProductIndex].src;
-//   imageOne.title = allProducts[firstProductIndex].name;
-//   allProducts[firstProductIndex].views++;
-
-//   imageTwo.src = allProducts[secondProductIndex].src;
-//   imageTwo.title = allProducts[secondProductIndex].name;
-//   allProducts[secondProductIndex].views++;
-
-//   imageThree.src = allProducts[thirdProductIndex].src;
-//   imageThree.title = allProducts[thirdProductIndex].name;
-//   allProducts[thirdProductIndex].views++;
-// }
-
-function renderResults() {
-  renderProduct();
+function renderProducts() {
+  getUniqueIndex();
   for (var i = 0; i < picArray.length; i++) {
-    var insert = uniqueArray.unshift();
-    allProducts[i].src = allProducts[insert].src;
-    allProducts[i].title = allProducts[insert].name;
-    allProducts[i].views++;
+    var insert = uniqueArray.shift();
+    picArray[i].src = allProducts[insert].src;
+    picArray[i].title = allProducts[insert].name;
+    allProducts[insert].views++;
   }
 }
 
-// {
-//   let myList = document.querySelector('ul');
-//   for (let i = 0; i < allProducts.length; i++) {
-//     let li = document.createElement('li');
-//     li.textContent = `${allProducts[i].name} had ${allProducts[i].views} votes, and was seen ${allProducts[i].clicked} times`;
-//     myList.appendChild(li);
-//   }
-// }
 
 function handleClick(event) {
   if (event.target === myContainer) {
     alert('Must click image');
   }
-
   totalClicks++;
   let getClicked = event.target.title;
-
   for (let i = 0; i < allProducts.length; i++) {
     if (getClicked === allProducts[i].name) {
       allProducts[i].clicked++;
     }
   }
-  renderProduct();
+  renderProducts();
   if (totalClicks === clicksAllowed) {
     myContainer.removeEventListener('click', handleClick);
     renderChart();
   }
 }
 
-function buttonClick(event) {
-  if (totalClicks === clicksAllowed) {
-    renderResults();
-  }
-}
-
-renderProduct();
+renderProducts();
 
 function renderChart() {
   let productClicks = [];
   let productNames = [];
   let productViews = [];
+
   for (let i = 0; i < allProducts.length; i++) {
-    productClicks.push(allProducts[i].clicks);
+    productClicks.push(allProducts[i].clicked);
     productNames.push(allProducts[i].name);
     productViews.push(allProducts[i].views);
     console.log(productNames);
   }
+
   let productsChart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -161,13 +107,7 @@ function renderChart() {
         borderColor: 'rgba(5, 93, 255, 1)',
         borderWidth: 5
       },
-      // {
-      //   label: 'Names',
-      //   data: productNames,
-      //   backgroundColor: 'rgba(255, 66, 66, 0.54)',      ------ Code Review Question. What is this utilized use for? Where do they live when rendered?
-      //   borderColor: 'rgba(255, 20, 20, 1)',
-      //   borderWidth: 5
-      // },
+
       {
         label: 'Views',
         data: productViews,
@@ -190,4 +130,4 @@ function renderChart() {
 }
 
 myContainer.addEventListener('click', handleClick);
-divButton.addEventListener('click', buttonClick);
+
